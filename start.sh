@@ -8,8 +8,12 @@ LINE="fastestmirror=True
 max_parallel_downloads=10
 defaultyes=True
 keepcache=True"
-FILE="/etc/dnf/dnf.conf"
-grep -qF -- "$LINE" "$FILE" || echo -e "$LINE" >> "$FILE"
+FILE="test.txt"
+if grep -qF -- "$LINE" "$FILE"; then
+    echo "dnf.conf already has the special parameters. Skipping..."
+else
+    echo -e "$LINE" >> "$FILE"
+fi
 
 # Clears cache, then installs updated packages.
 
