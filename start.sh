@@ -29,9 +29,14 @@ sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-releas
 sudo dnf groupupdate core
 
 # Installs Flatpak and Flathub.
-echo "Installing Flatpak and Flathub...(GNOME AND KDE ONLY)"
-sleep 1
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+if [ -x "$(command -v flatpak)" ]; then
+    echo "Flatpak is already installed. Skipping..."
+    sleep 1
+else
+    echo "Installing Flatpak repositories..."
+    sleep 1
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+fi
 
 # Set your hostname.
 echo "Enter the hostname you want to use:"
