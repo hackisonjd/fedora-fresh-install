@@ -39,11 +39,18 @@ else
 fi
 
 # Set your hostname.
-echo "Enter the hostname you want to use:"
-read HOSTNAME
-echo "Setting hostname..."
-sleep 1
-sudo hostnamectl set-hostname $HOSTNAME
+echo "Your hostname is currently set to: $(hostname), would you like to change it? (y/n)"
+read ANSWER
+if [ "$ANSWER" = "y" ]; then
+    echo "Enter the hostname you want to use:"
+    read HOSTNAME
+    echo "Setting hostname..."
+    sleep 1
+    sudo hostnamectl set-hostname $HOSTNAME
+else
+    echo "Skipping hostname change..."
+    sleep 1
+fi
 
 # Installs Media Codecs.
 echo "Installing Media Codecs..."
