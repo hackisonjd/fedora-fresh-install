@@ -8,7 +8,7 @@ LINE="fastestmirror=True
 max_parallel_downloads=10
 defaultyes=True
 keepcache=True"
-FILE="test.txt"
+FILE="/etc/dnf/dnf.conf"
 if grep -qF -- "$LINE" "$FILE"; then
     echo "dnf.conf already has the special parameters. Skipping..."
 else
