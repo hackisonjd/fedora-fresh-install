@@ -9,7 +9,11 @@ max_parallel_downloads=10
 defaultyes=True
 keepcache=True"
 FILE="/etc/dnf/dnf.conf"
-grep -qF -- "$LINE" "$FILE" || echo -e "$LINE" >> "$FILE"
+if grep -qF -- "$LINE" "$FILE"; then
+    echo "dnf.conf already has the special parameters. Skipping..."
+else
+    echo -e "$LINE" >> "$FILE"
+fi
 
 # Clears cache, then installs updated packages.
 
@@ -25,16 +29,28 @@ sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-releas
 sudo dnf groupupdate core
 
 # Installs Flatpak and Flathub.
-echo "Installing Flatpak and Flathub...(GNOME AND KDE ONLY)"
-sleep 1
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+if [ -x "$(command -v flatpak)" ]; then
+    echo "Flatpak is already installed. Skipping..."
+    sleep 1
+else
+    echo "Installing Flatpak repositories..."
+    sleep 1
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+fi
 
 # Set your hostname.
-echo "Enter the hostname you want to use:"
-read HOSTNAME
-echo "Setting hostname..."
-sleep 1
-sudo hostnamectl set-hostname $HOSTNAME
+echo "Your hostname is currently set to: $(hostname), would you like to change it? (y/n)"
+read ANSWER
+if [ "$ANSWER" = "y" ]; then
+    echo "Enter the hostname you want to use:"
+    read HOSTNAME
+    echo "Setting hostname..."
+    sleep 1
+    sudo hostnamectl set-hostname $HOSTNAME
+else
+    echo "Skipping hostname change..."
+    sleep 1
+fi
 
 # Installs Media Codecs.
 echo "Installing Media Codecs..."
