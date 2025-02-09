@@ -69,10 +69,13 @@ if [ "$ANSWER" = "y" ]; then
     echo "Would you like to install VSCode now? (y/n)"
     read ANSWER
     if [ "$ANSWER" = "y" ]; then
-        dnf install code
+        sudo dnf install code
     fi
 fi
 
 # Installs Media Codecs.
 echo "Installing Media Codecs..."
-sudo dnf group install multimedia
+sudo dnf swap 'ffmpeg-free' 'ffmpeg' --allowerasing # Switch to full FFMPEG.
+sudo dnf group upgrade multimedia
+sudo dnf upgrade @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin # Installs gstreamer components. Required if you use Gnome Videos and other dependent applications.
+sudo dnf group install -y sound-and-video # Installs useful Sound and Video complement packages.
