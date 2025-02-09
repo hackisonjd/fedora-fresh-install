@@ -7,7 +7,7 @@ if [ $EUID != 0 ]; then
     exit $?
 fi
 
-VSCODE="[vscode]'
+VSCODE="[vscode]
 name=Visual Studio Code
 baseurl=https://packages.microsoft.com/yumrepos/vscode
 enabled=1
