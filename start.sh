@@ -65,6 +65,12 @@ if [ "$ANSWER" = "y" ]; then
     echo "Adding VSCode repository..."
     sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
     echo -e "$VSCODE" > /etc/yum.repos.d/vscode.repo
+
+    echo "Would you like to install VSCode now? (y/n)"
+    read ANSWER
+    if [ "$ANSWER" = "y" ]; then
+        dnf install code
+    fi
 fi
 
 # Installs Media Codecs.
