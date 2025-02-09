@@ -1,5 +1,6 @@
 #!/bin/bash
 # This script is meant to be run after a fresh install of Fedora 41 as root. If any of these commands change with a new release, I'll edit this script.
+# https://github.com/devangshekhawat/Fedora-41-Post-Install-Guide
 
 # elevate to root if not already
 if [ $EUID != 0 ]; then
@@ -71,6 +72,14 @@ if [ "$ANSWER" = "y" ]; then
     if [ "$ANSWER" = "y" ]; then
         sudo dnf install code
     fi
+fi
+
+# Windows specific settings
+echo "Are you dual booting with Windows? (y/n)"
+read ANSWER
+if [ "$ANSWER" = "y" ]; then
+    echo "Setting hardware clock to function in local time..."
+    sudo timedatectl set-local-rtc '0'
 fi
 
 # Installs Media Codecs.
